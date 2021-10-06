@@ -1,4 +1,5 @@
-// get All issues from jira using axios
+const axios = require("axios");
+
 const getJiraIssuesAxios = async (
   jql,
   jiraCompanyName,
@@ -39,7 +40,15 @@ const generateReleaseNotes = async (
   jiraApiVersion = "latest"
 ) => {
   try {
-    const issues = await getJiraIssuesAxios();
+    const issues = await getJiraIssuesAxios(
+      jql,
+      jiraCompanyName,
+      jiraProjectName,
+      jiraSprintId,
+      jiraUserEmail,
+      jiraApiToken,
+      jiraApiVersion
+    );
 
     const jiraDoneIssues = issues.map((issue) => {
       return `- ${issue.fields.summary} - https://${jiraCompanyName}.atlassian.net/jira/software/projects/${jiraProjectName}/boards/${jiraBoardId}?selectedIssue=${issue.key}`;
@@ -50,15 +59,20 @@ const generateReleaseNotes = async (
     });
 
     return `Release Notes${sprintText ? ` - ${sprintText}` : ""}
-      
-      Release Notes - V${releaseVersion}
-      
-      ${releaseNotes.join("\n")}
-      
-      Tarefas Concluídas:
-      
-      ${jiraDoneIssues.join("\n")}`;
+
+Release Notes - V${releaseVersion}
+
+${releaseNotes.join("\n")}
+
+Tarefas Concluídas:
+
+${jiraDoneIssues.join("\n")}`;
   } catch (err) {
     return Promise.reject(err);
   }
+};
+
+module.exports = {
+  generateReleaseNotes,
+  getJiraIssuesAxios,
 };

@@ -1,14 +1,21 @@
-const axios = require("axios");
-const express = require("express");
-const app = express();
-app.use(express.json());
+const { generateReleaseNotes } = require("./jira");
 
-app.use("/", (req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept"
-  );
-
-  next();
-});
+(async () => {
+  try {
+    const result = await generateReleaseNotes(
+      "0.2.1",
+      "lighthouseit",
+      "APPSJ",
+      35,
+      186,
+      "Sprint 4 - Checkout",
+      undefined,
+      "gustavo.kuze@lighthouseit.com.br",
+      "hG2yOj227VDShY6oBX4EBE39"
+    );
+    console.log(result);
+  } catch (err) {
+    console.error("Ocorreu um erro ao gerar as notas da versão:");
+    console.error(err);
+  }
+})();
