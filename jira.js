@@ -27,7 +27,7 @@ const getJiraIssuesAxios = async (
   return result.data.issues;
 };
 
-const generateReleaseNotes = async (
+const generateReleaseNotes = async ({
   releaseVersion,
   jiraCompanyName,
   jiraProjectName,
@@ -37,8 +37,8 @@ const generateReleaseNotes = async (
   jql,
   jiraUserEmail,
   jiraApiToken,
-  jiraApiVersion = "latest"
-) => {
+  jiraApiVersion = "latest",
+}) => {
   try {
     const issues = await getJiraIssuesAxios(
       jql,
@@ -54,11 +54,13 @@ const generateReleaseNotes = async (
       return `- ${issue.fields.summary} - https://${jiraCompanyName}.atlassian.net/jira/software/projects/${jiraProjectName}/boards/${jiraBoardId}?selectedIssue=${issue.key}`;
     });
 
+    console.log(jiraDoneIssues.length);
+
     const releaseNotes = issues.map((issue) => {
       return `- ${issue.fields.summary}`;
     });
 
-    return `Release Notes${sprintText ? ` - ${sprintText}` : ""}
+    return `${sprintText ? `Release Notes - ${sprintText}` : ""}
 
 Release Notes - V${releaseVersion}
 
