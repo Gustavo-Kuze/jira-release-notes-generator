@@ -5,7 +5,7 @@ const { getArgs } = require("./utils");
   const args = getArgs();
 
   if (args.length === 0 || args.missingArgs) {
-    console.log("Os seguintes parametros sao obrigatorios:");
+    console.log("Required parameters:");
     console.log("--releaseVersion=");
     console.log("--jiraCompanyName=");
     console.log("--jiraProjectName=");
@@ -13,12 +13,13 @@ const { getArgs } = require("./utils");
     console.log("--jiraSprintId=");
     console.log("--jiraUserEmail=");
     console.log("--jiraApiToken=");
-    console.log("Os seguintes parametros opcionais:");
+    console.log("Optional parameters:");
     console.log("--sprintText=");
     console.log("--jql=");
     console.log("--jiraApiVersion=");
+    console.log("--completedTasksText=");
     console.log("----");
-    console.log("Voce esqueceu os seguintes parametros obrigatorios:");
+    console.log("You forgot to provide the following required params:");
     const { missingArgs, ...rest } = args;
     console.log(rest);
     process.exit(1);
@@ -28,7 +29,9 @@ const { getArgs } = require("./utils");
     const result = await generateReleaseNotes(args);
     console.log(result);
   } catch (err) {
-    console.error("Ocorreu um erro ao gerar as notas da versão:");
+    console.error(
+      "An unexpected error occurred while trying to fetch Jira tasks:"
+    );
     console.error(err);
   }
 })();

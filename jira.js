@@ -38,6 +38,7 @@ const generateReleaseNotes = async ({
   jiraUserEmail,
   jiraApiToken,
   jiraApiVersion = "latest",
+  completedTasksText = "Completed tasks:",
 }) => {
   try {
     const issues = await getJiraIssuesAxios(
@@ -66,7 +67,7 @@ Release Notes - V${releaseVersion}
 
 ${releaseNotes.join("\n")}
 
-Tarefas Concluídas:
+${completedTasksText}
 
 ${jiraDoneIssues.join("\n")}`;
   } catch (err) {

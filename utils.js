@@ -34,6 +34,7 @@ const getArgs = () => {
   let jiraUserEmail = "";
   let jiraApiToken = "";
   let jiraApiVersion = "latest";
+  let completedTasksText = "Completed tasks:";
 
   const args = process.argv.slice(2);
 
@@ -70,6 +71,9 @@ const getArgs = () => {
       case "--jiraApiVersion":
         jiraApiVersion = value;
         break;
+      case "--completedTasksText":
+        completedTasksText = value;
+        break;
       default:
         break;
     }
@@ -101,6 +105,7 @@ const getArgs = () => {
     jiraUserEmail,
     jiraApiToken,
     jiraApiVersion,
+    completedTasksText,
   };
 };
 
