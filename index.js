@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 const { generateReleaseNotes } = require("./jira");
 const { getArgs } = require("./utils");
 
